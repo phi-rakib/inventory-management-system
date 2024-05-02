@@ -53,10 +53,20 @@ class TransactionResource extends Resource
                             ->numeric()
                             ->prefix('$'),
                     ])
+                    ->mutateRelationshipDataBeforeCreateUsing(function (array $data): array {
+                        $product = Product::find($data['product_id']);
+
+                        $product->quantity = $product->quantity + $data['quantity'];
+
+                        $product->save();
+                        
+                        return $data;
+                    })
                     ->live(onBlur: true)
                     ->afterStateUpdated(function (Get $get, Set $set) {
                         self::updateTotals($get, $set);
-                    })->columnSpanFull(),
+                    })
+                    ->columnSpanFull(),
 
                 TextInput::make('total')
                     ->numeric()
