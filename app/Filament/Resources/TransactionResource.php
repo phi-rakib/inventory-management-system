@@ -16,6 +16,7 @@ use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -59,7 +60,7 @@ class TransactionResource extends Resource
                         $product->quantity = $product->quantity + $data['quantity'];
 
                         $product->save();
-                        
+
                         return $data;
                     })
                     ->live(onBlur: true)
@@ -91,7 +92,8 @@ class TransactionResource extends Resource
                     ->counts('productTransaction')
                     ->label('Total Products'),
                 TextColumn::make('total')
-                    ->label('Total Amount'),
+                    ->label('Total Amount')
+                    ->summarize(Sum::make()->label('Total Purchase Amount')),
                 TextColumn::make('productTransaction.product.name')
                     ->listWithLineBreaks()
                     ->bulleted(),
