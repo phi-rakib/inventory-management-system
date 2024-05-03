@@ -60,8 +60,6 @@ class ProductResource extends Resource
                 TextColumn::make('brand.name')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('description')
-                    ->searchable(),
                 TextColumn::make('quantity')
                     ->numeric()
                     ->sortable(),
