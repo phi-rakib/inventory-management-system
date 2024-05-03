@@ -16,11 +16,13 @@ return new class extends Migration
             $table->string('name');
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('brand_id');
+            $table->unsignedBigInteger('unit_type_id');
             $table->string('description')->nullable();
-            $table->integer('quantity');
+            $table->integer('quantity')->nullable();
             $table->decimal('price', 8, 2);
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
+            $table->foreign('unit_type_id')->references('id')->on('unit_types')->onDelete('cascade');
             $table->timestamps();
         });
     }

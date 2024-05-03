@@ -13,6 +13,7 @@ class Product extends Model
         'name',
         'category_id',
         'brand_id',
+        'unit_type_id',
         'description',
         'quantity',
         'price',
@@ -26,5 +27,10 @@ class Product extends Model
     public function brand()
     {
         return $this->belongsTo(Brand::class);
+    }
+
+    public function unitType()
+    {
+        return $this->belongsTo(UnitType::class);
     }
 }
