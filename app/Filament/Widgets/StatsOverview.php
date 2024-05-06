@@ -4,6 +4,7 @@ namespace App\Filament\Widgets;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\Transaction;
@@ -22,6 +23,11 @@ class StatsOverview extends BaseWidget
             Stat::make('Product', Product::count()),
             Stat::make('Supplier', Supplier::count()),
             Stat::make('Purchased', Transaction::sum('total')),
+            Stat::make('Paid', Payment::sum('amount')),
+            Stat::make('Due', function() {
+                $due = Transaction::sum('total') - Payment::sum('amount');
+                return $due < 0 ? 0 : $due;
+            }),
         ];
     }
 }
