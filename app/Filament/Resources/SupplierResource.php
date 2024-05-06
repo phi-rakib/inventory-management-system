@@ -48,11 +48,13 @@ class SupplierResource extends Resource
                 TextColumn::make('purchase')
                     ->state(function (Supplier $record): float {
                         return $record->transactions()->sum('total');
-                    }),
+                    })
+                    ->numeric(decimalPlaces: 0),
                 TextColumn::make('payments')
                     ->state(function (Supplier $record): float {
                         return $record->payments()->sum('amount');
                     })
+                    ->numeric(decimalPlaces: 0)
                     ->label('Paid'),
                 TextColumn::make('created_at')
                     ->dateTime()
