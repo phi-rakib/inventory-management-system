@@ -16,6 +16,7 @@ use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ColumnGroup;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -33,7 +34,7 @@ class TransactionResource extends Resource
 
     protected static ?string $navigationLabel = 'Purchase';
 
-    
+
 
     public static function form(Form $form): Form
     {
@@ -101,9 +102,15 @@ class TransactionResource extends Resource
                 TextColumn::make('total')
                     ->label('Total Amount')
                     ->summarize(Sum::make()->label('Total Purchase Amount')),
-                TextColumn::make('productTransaction.product.name')
-                    ->listWithLineBreaks()
-                    ->bulleted(),
+                ColumnGroup::make('Product', [
+                    TextColumn::make('productTransaction.product.name')
+                        ->label('name')
+                        ->listWithLineBreaks(),
+                    TextColumn::make('productTransaction.quantity')
+                        ->label('quantity')
+                        ->listWithLineBreaks(),
+                ]),
+
                 TextColumn::make('transact_at')
                     ->label('Date')
                     ->dateTime()
