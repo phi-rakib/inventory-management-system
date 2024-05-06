@@ -103,7 +103,10 @@ class TransactionResource extends Resource
                     TextColumn::make('productTransaction.quantity')
                         ->label('quantity')
                         ->listWithLineBreaks(),
-                ]),
+                    TextColumn::make('productTransaction.product.unitType.name')
+                        ->label('Unit')
+                        ->listWithLineBreaks(),
+                ])->alignCenter(),
                 TextColumn::make('total')
                     ->label('Total Amount')
                     ->summarize(Sum::make()->label('Total Purchase Amount')),
