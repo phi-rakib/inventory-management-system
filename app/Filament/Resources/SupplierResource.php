@@ -43,8 +43,6 @@ class SupplierResource extends Resource
             ->columns([
                 TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('email')
-                    ->searchable(),
                 TextColumn::make('purchase')
                     ->state(function (Supplier $record): float {
                         return $record->transactions()->sum('total');
@@ -56,10 +54,18 @@ class SupplierResource extends Resource
                     })
                     ->numeric(decimalPlaces: 0)
                     ->label('Paid'),
+                TextColumn::make('due')
+                    ->state(function (Supplier $record): float {
+                        $purchase = $record->transactions()->sum('total');
+                        $paid = $record->payments()->sum('amount');
+                        return $purchase - $paid;
+                    })
+                    ->numeric(decimalPlaces: 0)
+                    ->label('Due'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: false),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
