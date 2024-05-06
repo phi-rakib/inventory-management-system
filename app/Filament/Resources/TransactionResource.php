@@ -7,6 +7,7 @@ use App\Filament\Resources\TransactionResource\RelationManagers;
 use App\Models\Product;
 use App\Models\Transaction;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
@@ -19,6 +20,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\ColumnGroup;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -125,6 +127,22 @@ class TransactionResource extends Resource
 
             ])->defaultSort('transact_at', 'desc')
             ->filters([
+                Filter::make('transact_at')
+                    ->form([
+                        DatePicker::make('purchase_from'),
+                        DatePicker::make('purchase_until'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['purchase_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('transact_at', '>=', $date),
+                            )
+                            ->when(
+                                $data['purchase_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('transact_at', '<=', $date),
+                            );
+                    }),
                 SelectFilter::make('supplier')
                     ->relationship('supplier', 'name')
                     ->multiple()
