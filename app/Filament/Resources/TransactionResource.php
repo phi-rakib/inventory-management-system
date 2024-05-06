@@ -31,6 +31,10 @@ class TransactionResource extends Resource
 
     protected static ?int $navigationSort = 6;
 
+    protected static ?string $navigationLabel = 'Purchase';
+
+    
+
     public static function form(Form $form): Form
     {
         return $form
