@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('brand_id');
             $table->unsignedBigInteger('unit_type_id');
             $table->string('description')->nullable();
-            $table->integer('quantity')->nullable();
+            $table->decimal('quantity', 8, 2)->nullable();
             $table->decimal('price', 8, 2);
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
