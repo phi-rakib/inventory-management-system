@@ -125,7 +125,10 @@ class TransactionResource extends Resource
                 SelectFilter::make('supplier')
                     ->relationship('supplier', 'name')
                     ->multiple()
-                    ->searchable()
+                    ->searchable(),
+                SelectFilter::make('product')
+                    ->relationship('productTransaction.product', 'name')
+                    ->multiple(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
