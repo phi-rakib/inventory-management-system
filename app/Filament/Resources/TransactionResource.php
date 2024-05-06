@@ -96,12 +96,6 @@ class TransactionResource extends Resource
                 TextColumn::make('supplier.name')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('product_transaction_count')
-                    ->counts('productTransaction')
-                    ->label('Total Products'),
-                TextColumn::make('total')
-                    ->label('Total Amount')
-                    ->summarize(Sum::make()->label('Total Purchase Amount')),
                 ColumnGroup::make('Product', [
                     TextColumn::make('productTransaction.product.name')
                         ->label('name')
@@ -110,9 +104,11 @@ class TransactionResource extends Resource
                         ->label('quantity')
                         ->listWithLineBreaks(),
                 ]),
-
+                TextColumn::make('total')
+                    ->label('Total Amount')
+                    ->summarize(Sum::make()->label('Total Purchase Amount')),
                 TextColumn::make('transact_at')
-                    ->label('Date')
+                    ->label('Purchase Date')
                     ->dateTime()
                     ->sortable(),
                 TextColumn::make('created_at')
@@ -124,7 +120,7 @@ class TransactionResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
-            ])
+            ])->defaultSort('transact_at', 'desc')
             ->filters([
                 SelectFilter::make('supplier')
                     ->relationship('supplier', 'name')
