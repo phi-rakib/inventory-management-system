@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\SupplierResource\Pages;
 use App\Filament\Resources\SupplierResource\RelationManagers;
+use App\Models\Payment;
 use App\Models\Supplier;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -48,6 +49,11 @@ class SupplierResource extends Resource
                     ->state(function (Supplier $record): float {
                         return $record->transactions()->sum('total');
                     }),
+                TextColumn::make('payments')
+                    ->state(function (Supplier $record): float {
+                        return $record->payments()->sum('amount');
+                    })
+                    ->label('Paid'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
