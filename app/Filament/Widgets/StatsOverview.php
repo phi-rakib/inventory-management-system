@@ -50,6 +50,28 @@ class StatsOverview extends BaseWidget
                 }
                 return $totalDue;
             }),
+            Stat::make('Paid in Advance', function () {
+                $transactions = Transaction::groupBy('supplier_id')
+                    ->selectRaw('sum(total) as sum, supplier_id')
+                    ->pluck('sum', 'supplier_id');
+                
+                $payments = Payment::groupBy('supplier_id')
+                    ->selectRaw('sum(amount) as sum, supplier_id')
+                    ->pluck('sum', 'supplier_id');
+                
+                $totalAdvance = 0;
+                foreach ($transactions as $supplier_id => $sum) {
+                    if(isset($payments[$supplier_id]))
+                    {
+                        $advance = $payments[$supplier_id] - $sum;
+                        if($advance > 0)
+                        {
+                            $totalAdvance += $advance;
+                        }
+                    }
+                }
+                return $totalAdvance;
+            }),
         ];
     }
 }
