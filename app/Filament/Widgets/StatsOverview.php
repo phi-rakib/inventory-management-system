@@ -17,11 +17,6 @@ class StatsOverview extends BaseWidget
     protected function getStats(): array
     {
         return [
-            Stat::make('Categories', Category::count()),
-            Stat::make('Brands', Brand::count()),
-            Stat::make('Unit Types', UnitType::count()),
-            Stat::make('Product', Product::count()),
-            Stat::make('Supplier', Supplier::count()),
             Stat::make('Purchased', Transaction::sum('total')),
             Stat::make('Paid', Payment::sum('amount')),
             Stat::make('Due', function () {
@@ -72,6 +67,11 @@ class StatsOverview extends BaseWidget
                 }
                 return $totalAdvance;
             }),
+            Stat::make('Categories', Category::count()),
+            Stat::make('Brands', Brand::count()),
+            Stat::make('Unit Types', UnitType::count()),
+            Stat::make('Product', Product::count()),
+            Stat::make('Supplier', Supplier::count()),
         ];
     }
 }
