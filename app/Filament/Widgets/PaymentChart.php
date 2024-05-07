@@ -7,6 +7,8 @@ use Filament\Widgets\ChartWidget;
 
 class PaymentChart extends ChartWidget
 {
+    protected static ?int $sort = 2;
+
     protected static ?string $heading = 'Payment Chart By Date';
 
     protected function getData(): array

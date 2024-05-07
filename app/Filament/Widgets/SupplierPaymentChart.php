@@ -11,6 +11,8 @@ class SupplierPaymentChart extends ChartWidget
 {
     protected static ?string $heading = 'Supplier Payment';
 
+    protected static ?int $sort = 4;
+
     protected function getData(): array
     {
         $supplierPayments = Payment::select(DB::raw('SUM(amount) as total_amount'), 'supplier_id')

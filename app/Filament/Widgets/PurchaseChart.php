@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 class PurchaseChart extends ChartWidget
 {
     protected static ?string $heading = 'Purchase Chart By Date';
+    
+    protected static ?int $sort = 3;
 
     protected function getData(): array
     {
