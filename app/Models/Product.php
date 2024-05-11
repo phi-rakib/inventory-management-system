@@ -33,4 +33,10 @@ class Product extends Model
     {
         return $this->belongsTo(UnitType::class);
     }
+
+    public function attributes()
+    {
+        return $this->belongsToMany(Attribute::class, 'attribute_product', 'product_id', 'attribute_id')
+            ->withPivot('attribute_value_id');
+    }
 }
