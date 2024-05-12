@@ -19,7 +19,7 @@ class AttributeValueResource extends Resource
 {
     protected static ?string $model = AttributeValue::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-squares-plus';
 
     protected static ?string $navigationGroup = 'Product';
 
