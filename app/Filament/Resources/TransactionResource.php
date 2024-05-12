@@ -33,7 +33,7 @@ class TransactionResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-currency-bangladeshi';
 
-    protected static ?int $navigationSort = 6;
+    protected static ?int $navigationSort = 2;
 
     protected static ?string $navigationLabel = 'Purchase';
 
