@@ -56,7 +56,27 @@ class TransactionResource extends Resource
                     ->schema([
                         Select::make('product_id')
                             ->relationship('product', 'name')
-                            ->required(),
+                            ->required()
+                            ->live(),
+                        Repeater::make('AttributeValueProductTransactions')
+                            ->label('')
+                            ->relationship()
+                            ->schema([
+                                Select::make('attribute_value_id')
+                                    ->label('Attributes')
+                                    ->options(function (Get $get) {
+                                        $product_id = $get('../../product_id');
+                                        if ($product_id) {
+                                            return Product::find($product_id)
+                                                ->attributeProducts()
+                                                ->with('attributeValue:id,value_name')
+                                                ->get()
+                                                ->pluck('attributeValue.value_name', 'attributeValue.id');
+                                        }
+                                    })
+                            ])
+                            ->defaultItems(0)
+                            ->addActionLabel('Add Attribute'),
                         TextInput::make('quantity')
                             ->required()
                             ->numeric(),
@@ -78,7 +98,8 @@ class TransactionResource extends Resource
                     ->afterStateUpdated(function (Get $get, Set $set) {
                         self::updateTotals($get, $set);
                     })
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->addActionLabel('Add Product'),
 
                 TextInput::make('total')
                     ->numeric()
@@ -105,6 +126,7 @@ class TransactionResource extends Resource
                         ->listWithLineBreaks(),
                     TextColumn::make('productTransaction.quantity')
                         ->label('quantity')
+                        ->numeric()
                         ->listWithLineBreaks(),
                     TextColumn::make('productTransaction.product.unitType.name')
                         ->label('Unit')
@@ -112,6 +134,7 @@ class TransactionResource extends Resource
                 ])->alignCenter(),
                 TextColumn::make('total')
                     ->label('Total Amount')
+                    ->numeric()
                     ->summarize(Sum::make()->label('Total Purchase Amount')),
                 TextColumn::make('transact_at')
                     ->label('Purchase Date')

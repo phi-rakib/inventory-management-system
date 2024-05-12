@@ -27,4 +27,9 @@ class ProductTransaction extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function AttributeValueProductTransactions()
+    {
+        return $this->hasMany(AttributeValueProductTransaction::class);
+    }
 }
