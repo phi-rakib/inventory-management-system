@@ -4,17 +4,23 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
+use App\Models\AttributeValue;
 use App\Models\Product;
 use Filament\Forms;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+
+use function Laravel\Prompts\select;
 
 class ProductResource extends Resource
 {
@@ -37,16 +43,33 @@ class ProductResource extends Resource
                 Select::make('brand_id')
                     ->relationship('brand', 'name')
                     ->required(),
-                TextInput::make('description')
-                    ->maxLength(255)
-                    ->default(null),
                 Select::make('unit_type_id')
                     ->relationship('unitType', 'name')
                     ->required(),
-                TextInput::make('price')
+                Textarea::make('description')
+                    ->autosize()
+                    ->default(null),
+                    TextInput::make('price')
                     ->required()
                     ->numeric()
                     ->prefix('$'),
+                Repeater::make('attributeProducts')
+                    ->label('Product Attribute')
+                    ->relationship()
+                    ->schema([
+                        Select::make('attribute_id')
+                            ->relationship('attribute', 'name')
+                            ->live(),
+                        Select::make('attribute_value_id')
+                            ->label('Value')
+                            ->options(function (Get $get) {
+                                return AttributeValue::where('attribute_id', $get('attribute_id'))->pluck('value_name', 'id');
+                            })
+                    ])
+                    ->columns(2)
+                    ->columnSpanFull()
+                    ->addActionLabel('Add Attribute'),
+                
             ]);
     }
 
