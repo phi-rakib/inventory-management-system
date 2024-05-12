@@ -37,7 +37,7 @@ class TransactionResource extends Resource
 
     protected static ?string $navigationLabel = 'Purchase';
 
-
+    protected static ?string $navigationGroup = 'Billing & Payments';
 
     public static function form(Form $form): Form
     {
