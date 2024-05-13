@@ -62,6 +62,7 @@ class AdminPanelProvider extends PanelProvider
                 'Billing & Payments',
                 'User Management',
                 'Settings',
-            ]);
+            ])
+            ->sidebarCollapsibleOnDesktop();
     }
 }
