@@ -56,6 +56,12 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
+            ])
+            ->navigationGroups([
+                'Product',
+                'Billing & Payments',
+                'User Management',
+                'Settings',
             ]);
     }
 }
