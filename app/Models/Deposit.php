@@ -14,6 +14,7 @@ class Deposit extends Model
         'deposit_date',
         'amount',
         'payment_method_id',
+        'deposit_category_id',
     ];
 
     public function account()
@@ -24,5 +25,10 @@ class Deposit extends Model
     public function paymentMethod()
     {
         return $this->belongsTo(PaymentMethod::class);
+    }
+
+    public function depositCategory()
+    {
+        return $this->belongsTo(DepositCategory::class);
     }
 }
