@@ -14,6 +14,7 @@ class Payment extends Model
         'payment_method_id',
         'amount',
         'payment_date',
+        'transaction_id',
     ];
 
     public function account()
@@ -24,5 +25,10 @@ class Payment extends Model
     public function paymentMethod()
     {
         return $this->belongsTo(PaymentMethod::class);
+    }
+
+    public function transaction()
+    {
+        return $this->belongsTo(Transaction::class);
     }
 }
