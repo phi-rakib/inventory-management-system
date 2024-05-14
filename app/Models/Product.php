@@ -44,4 +44,16 @@ class Product extends Model
     {
         return $this->hasMany(AttributeProduct::class);
     }
+
+    public function warehouses()
+    {
+        return $this->belongsToMany(Warehouse::class)
+            ->withPivot('quantity');
+    }
+
+    public function purchaseReturns()
+    {
+        return $this->belongsToMany(PurchaseReturn::class)
+            ->withPivot('quantity');
+    }
 }

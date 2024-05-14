@@ -2,29 +2,30 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PaymentResource\Pages;
-use App\Filament\Resources\PaymentResource\RelationManagers;
-use App\Models\Payment;
+use App\Filament\Resources\ExpenseResource\Pages;
+use App\Filament\Resources\ExpenseResource\RelationManagers;
+use App\Models\Expense;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class PaymentResource extends Resource
+class ExpenseResource extends Resource
 {
-    protected static ?string $model = Payment::class;
+    protected static ?string $model = Expense::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-banknotes';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?int $navigationSort = 1;
 
-    protected static ?string $navigationGroup = 'Billing & Payments';
+    protected static ?string $navigationGroup = 'Accounts';
 
     public static function getNavigationBadge(): ?string
     {
@@ -35,17 +36,14 @@ class PaymentResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('supplier_id')
-                    ->relationship('supplier', 'name')
+                Select::make('expense_category_id')
+                    ->relationship(name: 'expenseCategory', titleAttribute: 'name')
                     ->required(),
-                Select::make('payment_method_id')
-                    ->relationship(name: 'paymentMethod', titleAttribute: 'name')
-                    ->required(),
-                Forms\Components\TextInput::make('amount')
+                TextInput::make('amount')
                     ->required()
                     ->numeric(),
-                Forms\Components\DatePicker::make('payment_date')
-                    ->required(),
+                Textarea::make('description')
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -53,25 +51,16 @@ class PaymentResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('supplier.name')
+                TextColumn::make('expenseCategory.name')
+                    ->label('Category')
                     ->sortable(),
                 TextColumn::make('amount')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('paymentMethod.name')
-                    ->sortable(),
-                TextColumn::make('payment_date')
-                    ->date()
-                    ->sortable(),
-                TextColumn::make('amount')
-                    ->numeric()
-                    ->summarize([
-                        Sum::make()->label('Total')
-                    ]),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: false),
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
@@ -100,9 +89,9 @@ class PaymentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPayments::route('/'),
-            'create' => Pages\CreatePayment::route('/create'),
-            'edit' => Pages\EditPayment::route('/{record}/edit'),
+            'index' => Pages\ListExpenses::route('/'),
+            'create' => Pages\CreateExpense::route('/create'),
+            'edit' => Pages\EditExpense::route('/{record}/edit'),
         ];
     }
 }
