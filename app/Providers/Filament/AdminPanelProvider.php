@@ -63,17 +63,22 @@ class AdminPanelProvider extends PanelProvider
                 NavigationGroup::make()
                     ->label('Product'),
                 NavigationGroup::make()
-                    ->label('Product Transfer'),
+                    ->label('Product Transfer')
+                    ->collapsed(),
                 NavigationGroup::make()
-                    ->label('People'),
+                    ->label('People')
+                    ->collapsed(),
                 NavigationGroup::make()
-                    ->label('Expense'),
+                    ->label('Expense')
+                    ->collapsed(),
                 NavigationGroup::make()
                     ->label('Billing & Payments'),
                 NavigationGroup::make()
-                    ->label('User Management'),
+                    ->label('User Management')
+                    ->collapsed(),
                 NavigationGroup::make()
-                    ->label('Settings'),
+                    ->label('Settings')
+                    ->collapsed(),
             ])
             ->sidebarCollapsibleOnDesktop();
     }
