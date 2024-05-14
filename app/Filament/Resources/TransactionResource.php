@@ -10,7 +10,9 @@ use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Split;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -48,47 +50,58 @@ class TransactionResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('supplier_id')
-                    ->relationship('supplier', 'name')
-                    ->required(),
 
                 DateTimePicker::make('transact_at')
                     ->label('Date')
                     ->required(),
+                Select::make('supplier_id')
+                    ->relationship('supplier', 'name')
+                    ->required(),
+
+
 
                 Repeater::make('productTransaction')
+                    ->label('Products')
                     ->relationship()
                     ->schema([
-                        Select::make('product_id')
-                            ->relationship('product', 'name')
-                            ->required()
-                            ->live(),
-                        Repeater::make('AttributeValueProductTransactions')
-                            ->label('')
-                            ->relationship()
-                            ->schema([
-                                Select::make('attribute_value_id')
-                                    ->label('Attributes')
-                                    ->options(function (Get $get) {
-                                        $product_id = $get('../../product_id');
-                                        if ($product_id) {
-                                            return Product::find($product_id)
-                                                ->attributeProducts()
-                                                ->with('attributeValue:id,value_name')
-                                                ->get()
-                                                ->pluck('attributeValue.value_name', 'attributeValue.id');
-                                        }
-                                    })
+                        Split::make([
+                            Section::make([
+                                Select::make('product_id')
+                                    ->relationship('product', 'name')
+                                    ->required()
+                                    ->live(),
+                                TextInput::make('quantity')
+                                    ->required()
+                                    ->numeric(),
+                                TextInput::make('unit_price')
+                                    ->required()
+                                    ->numeric()
+                                    ->prefix('$'),
+                            ]),
+                            Section::make([
+                                Repeater::make('AttributeValueProductTransactions')
+                                    ->label('')
+                                    ->relationship()
+                                    ->schema([
+                                        Select::make('attribute_value_id')
+                                            ->label('Attributes')
+                                            ->options(function (Get $get) {
+                                                $product_id = $get('../../product_id');
+                                                if ($product_id) {
+                                                    return Product::find($product_id)
+                                                        ->attributeProducts()
+                                                        ->with('attributeValue:id,value_name')
+                                                        ->get()
+                                                        ->pluck('attributeValue.value_name', 'attributeValue.id');
+                                                }
+                                            })
+                                    ])
+                                    ->defaultItems(0)
+                                    ->addActionLabel('Add Attribute'),
                             ])
-                            ->defaultItems(0)
-                            ->addActionLabel('Add Attribute'),
-                        TextInput::make('quantity')
-                            ->required()
-                            ->numeric(),
-                        TextInput::make('unit_price')
-                            ->required()
-                            ->numeric()
-                            ->prefix('$'),
+                        ])
+
+
                     ])
                     ->mutateRelationshipDataBeforeCreateUsing(function (array $data): array {
                         $product = Product::find($data['product_id']);
