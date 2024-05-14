@@ -38,6 +38,9 @@ class PaymentResource extends Resource
                 Select::make('supplier_id')
                     ->relationship('supplier', 'name')
                     ->required(),
+                Select::make('payment_method_id')
+                    ->relationship(name: 'paymentMethod', titleAttribute: 'name')
+                    ->required(),
                 Forms\Components\TextInput::make('amount')
                     ->required()
                     ->numeric(),
@@ -54,6 +57,8 @@ class PaymentResource extends Resource
                     ->sortable(),
                 TextColumn::make('amount')
                     ->numeric()
+                    ->sortable(),
+                TextColumn::make('paymentMethod.name')
                     ->sortable(),
                 TextColumn::make('payment_date')
                     ->date()
