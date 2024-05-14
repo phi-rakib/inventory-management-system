@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ProductAdjustmentResource\Pages;
-use App\Filament\Resources\ProductAdjustmentResource\RelationManagers;
-use App\Models\ProductAdjustment;
+use App\Filament\Resources\AdjustmentResource\Pages;
+use App\Filament\Resources\AdjustmentResource\RelationManagers;
+use App\Models\Adjustment;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -17,9 +17,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ProductAdjustmentResource extends Resource
+class AdjustmentResource extends Resource
 {
-    protected static ?string $model = ProductAdjustment::class;
+    protected static ?string $model = Adjustment::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -110,9 +110,9 @@ class ProductAdjustmentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProductAdjustments::route('/'),
-            'create' => Pages\CreateProductAdjustment::route('/create'),
-            'edit' => Pages\EditProductAdjustment::route('/{record}/edit'),
+            'index' => Pages\ListAdjustments::route('/'),
+            'create' => Pages\CreateAdjustment::route('/create'),
+            'edit' => Pages\EditAdjustment::route('/{record}/edit'),
         ];
     }
 }

@@ -11,19 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_adjustments', function (Blueprint $table) {
+        Schema::create('adjustments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('warehouse_id');
             $table->date('adjustment_date');
-            $table->decimal('quantity', 8, 2);
-            $table->enum('type', ['addition', 'subtraction']);
-            $table->string('reason');
-
+            $table->text('reason');
             $table->timestamps();
 
             $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            
         });
     }
 
