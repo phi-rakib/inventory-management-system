@@ -23,6 +23,15 @@ class ProductAdjustmentResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?int $navigationSort = 7;
+
+    protected static ?string $navigationGroup = 'Product';
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
     public static function form(Form $form): Form
     {
         return $form
