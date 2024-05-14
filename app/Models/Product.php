@@ -50,4 +50,10 @@ class Product extends Model
         return $this->belongsToMany(Warehouse::class)
             ->withPivot('quantity');
     }
+
+    public function purchaseReturns()
+    {
+        return $this->belongsToMany(PurchaseReturn::class)
+            ->withPivot('quantity');
+    }
 }
