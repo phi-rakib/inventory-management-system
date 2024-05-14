@@ -5,6 +5,8 @@ namespace App\Providers\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationGroup;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -58,10 +60,20 @@ class AdminPanelProvider extends PanelProvider
                 \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
             ])
             ->navigationGroups([
-                'Product',
-                'Billing & Payments',
-                'User Management',
-                'Settings',
+                NavigationGroup::make()
+                    ->label('Product'),
+                NavigationGroup::make()
+                    ->label('Product Transfer'),
+                NavigationGroup::make()
+                    ->label('People'),
+                NavigationGroup::make()
+                    ->label('Expense'),
+                NavigationGroup::make()
+                    ->label('Billing & Payments'),
+                NavigationGroup::make()
+                    ->label('User Management'),
+                NavigationGroup::make()
+                    ->label('Settings'),
             ])
             ->sidebarCollapsibleOnDesktop();
     }
