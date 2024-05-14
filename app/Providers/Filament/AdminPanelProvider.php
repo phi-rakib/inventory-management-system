@@ -61,6 +61,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->navigationGroups([
                 NavigationGroup::make()
+                    ->label('Accounts'),
+                NavigationGroup::make()
                     ->label('Product'),
                 NavigationGroup::make()
                     ->label('Product Transfer')
