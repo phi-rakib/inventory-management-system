@@ -43,7 +43,8 @@ class ProductResource extends Resource
             ->schema([
                 TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->columnSpanFull(),
                 Select::make('category_id')
                     ->relationship('category', 'name')
                     ->required(),
@@ -53,13 +54,15 @@ class ProductResource extends Resource
                 Select::make('unit_type_id')
                     ->relationship('unitType', 'name')
                     ->required(),
-                Textarea::make('description')
-                    ->autosize()
-                    ->default(null),
-                    TextInput::make('price')
+
+                TextInput::make('price')
                     ->required()
                     ->numeric()
                     ->prefix('$'),
+                Textarea::make('description')
+                    ->autosize()
+                    ->default(null)
+                    ->columnSpanFull(),
                 Repeater::make('attributeProducts')
                     ->label('Product Attribute')
                     ->relationship()
@@ -76,7 +79,7 @@ class ProductResource extends Resource
                     ->columns(2)
                     ->columnSpanFull()
                     ->addActionLabel('Add Attribute'),
-                
+
             ]);
     }
 
