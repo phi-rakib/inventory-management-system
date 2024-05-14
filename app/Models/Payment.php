@@ -10,15 +10,15 @@ class Payment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'supplier_id',
+        'account_id',
         'payment_method_id',
         'amount',
         'payment_date',
     ];
 
-    public function supplier()
+    public function account()
     {
-        return $this->belongsTo(Supplier::class);
+        return $this->belongsTo(Account::class);
     }
 
     public function paymentMethod()
