@@ -37,7 +37,7 @@ class TransferResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('')
+                Section::make()
                     ->schema([
                         DatePicker::make('transfer_date')
                             ->label('Date')
