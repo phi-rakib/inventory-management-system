@@ -6,7 +6,11 @@ use App\Filament\Resources\TransferResource\Pages;
 use App\Filament\Resources\TransferResource\RelationManagers;
 use App\Models\Transfer;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -33,18 +37,32 @@ class TransferResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('from_warehouse_id')
-                    ->relationship(name: 'fromWarehouse', titleAttribute: 'name')
-                    ->required(),
-                Select::make('to_warehouse_id')
-                    ->relationship(name: 'toWarehouse', titleAttribute: 'name')
-                    ->required(),
-                Select::make('product_id')
-                    ->relationship(name: 'product', titleAttribute: 'name')
-                    ->required(),
-                Forms\Components\TextInput::make('quantity')
-                    ->required()
-                    ->numeric(),
+                Section::make('')
+                    ->schema([
+                        DatePicker::make('transfer_date')
+                            ->label('Date')
+                            ->required(),
+                        Select::make('from_warehouse_id')
+                            ->relationship(name: 'fromWarehouse', titleAttribute: 'name')
+                            ->required(),
+                        Select::make('to_warehouse_id')
+                            ->relationship(name: 'toWarehouse', titleAttribute: 'name')
+                            ->required(),
+                    ])->columns(3),
+                Repeater::make('productTransfer')
+                    ->relationship()
+                    ->label('Products')
+                    ->schema([
+                        Select::make('product_id')
+                            ->relationship(name: 'product', titleAttribute: 'name')
+                            ->required(),
+                        TextInput::make('quantity')
+                            ->required()
+                            ->numeric(),
+                    ])
+                    ->addActionLabel('Add Product')
+                    ->columns(2)
+                    ->columnSpanFull()
             ]);
     }
 

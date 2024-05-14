@@ -10,10 +10,9 @@ class Transfer extends Model
     use HasFactory;
 
     protected $fillable = [
+        'transfer_date',
         'from_warehouse_id',
         'to_warehouse_id',
-        'product_id',
-        'quantity',
     ];
 
     public function fromWarehouse()
@@ -26,8 +25,8 @@ class Transfer extends Model
         return $this->belongsTo(Warehouse::class);
     }
 
-    public function product()
+    public function productTransfer()
     {
-        return $this->belongsTo(Product::class);
+        return $this->hasMany(ProductTransfer::class);
     }
 }

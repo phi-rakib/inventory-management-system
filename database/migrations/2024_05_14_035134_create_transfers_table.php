@@ -13,14 +13,13 @@ return new class extends Migration
     {
         Schema::create('transfers', function (Blueprint $table) {
             $table->id();
+            $table->date('transfer_date');
             $table->unsignedBigInteger('from_warehouse_id');
             $table->unsignedBigInteger('to_warehouse_id');
-            $table->unsignedBigInteger('product_id');
-            $table->decimal('quantity', 8, 2);
             $table->timestamps();
+            
             $table->foreign('from_warehouse_id')->references('id')->on('warehouses')->onDelete('cascade');
             $table->foreign('to_warehouse_id')->references('id')->on('warehouses')->onDelete('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 
