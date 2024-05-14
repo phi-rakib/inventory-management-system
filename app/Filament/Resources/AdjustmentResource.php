@@ -7,7 +7,9 @@ use App\Filament\Resources\AdjustmentResource\RelationManagers;
 use App\Models\Adjustment;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -37,25 +39,36 @@ class AdjustmentResource extends Resource
         return $form
             ->schema([
                 DatePicker::make('adjustment_date')
+                    ->label('Date')
                     ->required(),
-                Select::make('product_id')
-                    ->relationship(name: 'product', titleAttribute: 'name')
-                    ->required(),
+
                 Select::make('warehouse_id')
                     ->relationship(name: 'warehouse', titleAttribute: 'name')
                     ->required(),
-                TextInput::make('quantity')
-                    ->required()
-                    ->numeric(),
-                Select::make('type')
-                    ->options([
-                        'addition' => 'Addition',
-                        'subtraction' => 'Subtraction',
+                Repeater::make('adjustmentProducts')
+                    ->label('Products')
+                    ->relationship()
+                    ->schema([
+                        Select::make('product_id')
+                            ->relationship(name: 'product', titleAttribute: 'name')
+                            ->required()->columnSpan(2),
+                        TextInput::make('quantity')
+                            ->required()
+                            ->numeric(),
+                        Select::make('type')
+                            ->options([
+                                'addition' => 'Addition',
+                                'subtraction' => 'Subtraction',
+                            ])
+                            ->required(),
                     ])
-                    ->required(),
-                TextInput::make('reason')
+                    ->addActionLabel('Add Product')
+                    ->columns(4)
+                    ->columnSpanFull(),
+                Textarea::make('reason')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->columnSpanFull(),
             ]);
     }
 

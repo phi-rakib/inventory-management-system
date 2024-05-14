@@ -19,4 +19,13 @@ class Adjustment extends Model
     {
         return $this->belongsTo(Warehouse::class);
     }
+
+    public function adjustmentProducts()
+    {
+        return $this->hasMany(AdjustmentProduct::class);
+        // ->withPivot([
+        //     'quantity',
+        //     'type',
+        // ]);
+    }
 }
