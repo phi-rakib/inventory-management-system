@@ -6,7 +6,10 @@ use App\Filament\Resources\PaymentResource\Pages;
 use App\Filament\Resources\PaymentResource\RelationManagers;
 use App\Models\Payment;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -33,20 +36,32 @@ class PaymentResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
+        
+
+        $form
             ->schema([
-                Select::make('supplier_id')
-                    ->relationship('supplier', 'name')
+                Hidden::make('transaction_id'),
+
+                DatePicker::make('payment_date')
+                    ->label('Date')
                     ->required(),
+
+                Select::make('account_id')
+                    ->relationship('account', 'name')
+                    ->required(),
+
                 Select::make('payment_method_id')
                     ->relationship(name: 'paymentMethod', titleAttribute: 'name')
                     ->required(),
-                Forms\Components\TextInput::make('amount')
+                    
+                TextInput::make('amount')
                     ->required()
                     ->numeric(),
-                Forms\Components\DatePicker::make('payment_date')
-                    ->required(),
+                
             ]);
+
+            
+        return $form;
     }
 
     public static function table(Table $table): Table
