@@ -19,6 +19,8 @@ use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\ColumnGroup;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
@@ -27,7 +29,9 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use stdClass;
 
 class TransactionResource extends Resource
 {
@@ -150,6 +154,10 @@ class TransactionResource extends Resource
                         ->label('Unit')
                         ->listWithLineBreaks(),
                 ])->alignCenter(),
+                TextColumn::make('paid')
+                    ->numeric(),
+                TextColumn::make('due')
+                    ->numeric(),
                 TextColumn::make('total')
                     ->label('Total Amount')
                     ->numeric()
@@ -195,6 +203,9 @@ class TransactionResource extends Resource
             ], layout: FiltersLayout::Modal)
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Action::make('pay')
+                    ->url(fn (Transaction $record): string => route('filament.admin.resources.payments.create') . '?transaction_id=' . $record->id)
+                    ->modal()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

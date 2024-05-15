@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Payment extends Model
+class Deposit extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'account_id',
-        'payment_method_id',
+        'deposit_date',
         'amount',
-        'payment_date',
-        'transaction_id',
+        'payment_method_id',
+        'deposit_category_id',
     ];
 
     public function account()
@@ -27,8 +27,8 @@ class Payment extends Model
         return $this->belongsTo(PaymentMethod::class);
     }
 
-    public function transaction()
+    public function depositCategory()
     {
-        return $this->belongsTo(Transaction::class);
+        return $this->belongsTo(DepositCategory::class);
     }
 }

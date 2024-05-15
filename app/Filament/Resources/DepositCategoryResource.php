@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ExpenseCategoryResource\Pages;
-use App\Filament\Resources\ExpenseCategoryResource\RelationManagers;
-use App\Models\ExpenseCategory;
+use App\Filament\Resources\DepositCategoryResource\Pages;
+use App\Filament\Resources\DepositCategoryResource\RelationManagers;
+use App\Models\DepositCategory;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,13 +13,13 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ExpenseCategoryResource extends Resource
+class DepositCategoryResource extends Resource
 {
-    protected static ?string $model = ExpenseCategory::class;
+    protected static ?string $model = DepositCategory::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 3;
 
     protected static ?string $navigationGroup = 'Accounts';
 
@@ -47,7 +47,7 @@ class ExpenseCategoryResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: false),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
@@ -76,9 +76,9 @@ class ExpenseCategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListExpenseCategories::route('/'),
-            'create' => Pages\CreateExpenseCategory::route('/create'),
-            'edit' => Pages\EditExpenseCategory::route('/{record}/edit'),
+            'index' => Pages\ListDepositCategories::route('/'),
+            'create' => Pages\CreateDepositCategory::route('/create'),
+            'edit' => Pages\EditDepositCategory::route('/{record}/edit'),
         ];
     }
 }

@@ -24,4 +24,19 @@ class Transaction extends Model
     {
         return $this->hasMany(ProductTransaction::class);
     }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function getPaidAttribute()
+    {
+        return $this->payments()->sum('amount');
+    }
+
+    public function getDueAttribute()
+    {
+        return $this->total - $this->paid;
+    }
 }

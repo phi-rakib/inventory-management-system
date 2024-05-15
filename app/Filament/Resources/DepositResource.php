@@ -2,32 +2,30 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PaymentResource\Pages;
-use App\Filament\Resources\PaymentResource\RelationManagers;
-use App\Models\Payment;
+use App\Filament\Resources\DepositResource\Pages;
+use App\Filament\Resources\DepositResource\RelationManagers;
+use App\Models\Deposit;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class PaymentResource extends Resource
+class DepositResource extends Resource
 {
-    protected static ?string $model = Payment::class;
+    protected static ?string $model = Deposit::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-banknotes';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 2;
 
-    protected static ?string $navigationGroup = 'Billing & Payments';
+    protected static ?string $navigationGroup = 'Accounts';
 
     public static function getNavigationBadge(): ?string
     {
@@ -36,53 +34,45 @@ class PaymentResource extends Resource
 
     public static function form(Form $form): Form
     {
-        
-
-        $form
+        return $form
             ->schema([
-                Hidden::make('transaction_id'),
-
-                DatePicker::make('payment_date')
+                DatePicker::make('deposit_date')
                     ->label('Date')
                     ->required(),
-
                 Select::make('account_id')
-                    ->relationship('account', 'name')
+                    ->relationship(name: 'account', titleAttribute: 'name')
                     ->required(),
-
-                Select::make('payment_method_id')
-                    ->relationship(name: 'paymentMethod', titleAttribute: 'name')
+                Select::make('deposit_category_id')
+                    ->relationship(name: 'depositCategory', titleAttribute: 'name')
                     ->required(),
-                    
                 TextInput::make('amount')
                     ->required()
                     ->numeric(),
-                
+                Select::make('payment_method_id')
+                    ->relationship(name: 'paymentMethod', titleAttribute: 'name')
+                    ->required(),
             ]);
-
-            
-        return $form;
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('supplier.name')
-                    ->sortable(),
-                TextColumn::make('amount')
+                TextColumn::make('account.name')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('paymentMethod.name')
+                TextColumn::make('deposit_category.name')
+                    ->numeric()
                     ->sortable(),
-                TextColumn::make('payment_date')
+                TextColumn::make('deposit_date')
                     ->date()
                     ->sortable(),
                 TextColumn::make('amount')
                     ->numeric()
-                    ->summarize([
-                        Sum::make()->label('Total')
-                    ]),
+                    ->sortable(),
+                TextColumn::make('payment_method.name')
+                    ->numeric()
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -115,9 +105,9 @@ class PaymentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPayments::route('/'),
-            'create' => Pages\CreatePayment::route('/create'),
-            'edit' => Pages\EditPayment::route('/{record}/edit'),
+            'index' => Pages\ListDeposits::route('/'),
+            'create' => Pages\CreateDeposit::route('/create'),
+            'edit' => Pages\EditDeposit::route('/{record}/edit'),
         ];
     }
 }
