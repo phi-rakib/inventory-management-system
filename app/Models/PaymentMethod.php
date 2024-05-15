@@ -12,4 +12,9 @@ class PaymentMethod extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class);
+    }
 }
