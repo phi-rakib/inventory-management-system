@@ -15,11 +15,11 @@ class SupplierPaymentChart extends ChartWidget
 
     protected function getData(): array
     {
-        $supplierPayments = Payment::select(DB::raw('SUM(amount) as total_amount'), 'supplier_id')
-            ->groupBy('supplier_id')
-            ->with('supplier:id,name') 
+        $supplierPayments = Payment::select(DB::raw('SUM(amount) as total_amount'), 'account_id')
+            ->groupBy('account_id')
+            ->with('account:id,name') 
             ->get()
-            ->pluck('total_amount', 'supplier.name')
+            ->pluck('total_amount', 'account.name')
             ->toArray();
         
         $uniqueColors = generateUniqueColors(count($supplierPayments));
