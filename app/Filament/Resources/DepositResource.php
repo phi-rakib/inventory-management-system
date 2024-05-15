@@ -61,7 +61,7 @@ class DepositResource extends Resource
                 TextColumn::make('account.name')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('deposit_category.name')
+                TextColumn::make('depositCategory.name')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('deposit_date')
@@ -70,7 +70,7 @@ class DepositResource extends Resource
                 TextColumn::make('amount')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('payment_method.name')
+                TextColumn::make('paymentMethod.name')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')

@@ -4,12 +4,17 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ExpenseResource\Pages;
 use App\Filament\Resources\ExpenseResource\RelationManagers;
+use App\Models\Account;
 use App\Models\Expense;
+use Closure;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -36,12 +41,37 @@ class ExpenseResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('expense_category_id')
-                    ->relationship(name: 'expenseCategory', titleAttribute: 'name')
-                    ->required(),
-                TextInput::make('amount')
-                    ->required()
-                    ->numeric(),
+                Section::make([
+                    DatePicker::make('expense_date')
+                        ->label('Date')
+                        ->required(),
+                    Select::make('account_id')
+                        ->relationship(name: 'account', titleAttribute: 'name')
+                        ->required()
+                ])->columns(2),
+                Section::make([
+                    Select::make('expense_category_id')
+                        ->relationship(name: 'expenseCategory', titleAttribute: 'name')
+                        ->required(),
+                    Select::make('payment_method_id')
+                        ->relationship(name: 'paymentMethod', titleAttribute: 'name')
+                        ->required(),
+                    TextInput::make('amount')
+                        ->rules([
+                            fn (Get $get): Closure => function (string $attribute, $value, Closure $fail) use ($get) {
+                                $account_id = $get('account_id');
+                                if ($account_id) {
+                                    $account = Account::find($account_id);
+                                    if($account->balance < $value)
+                                    {
+                                        $fail("You do not have suffcient balance in your account");
+                                    }
+                                }
+                            },
+                        ])
+                        ->required()
+                        ->numeric(),
+                ])->columns(3),
                 Textarea::make('description')
                     ->columnSpanFull(),
             ]);
