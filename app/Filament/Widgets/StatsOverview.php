@@ -4,6 +4,8 @@ namespace App\Filament\Widgets;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Deposit;
+use App\Models\Expense;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Supplier;
@@ -15,60 +17,21 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 class StatsOverview extends BaseWidget
 {
     protected static ?int $sort = 1;
-    
+
     protected function getStats(): array
     {
         return [
             Stat::make('Purchased', Transaction::sum('total')),
             Stat::make('Paid', Payment::sum('amount')),
             Stat::make('Due', function () {
-                $transactions = Transaction::groupBy('supplier_id')
-                    ->selectRaw('sum(total) as sum, supplier_id')
-                    ->pluck('sum', 'supplier_id');
-                
-                $payments = Payment::groupBy('supplier_id')
-                    ->selectRaw('sum(amount) as sum, supplier_id')
-                    ->pluck('sum', 'supplier_id');
-                
-                $totalDue = 0;
-                foreach ($transactions as $supplier_id => $sum) {
-                    if(isset($payments[$supplier_id]))
-                    {
-                        $due = $sum - $payments[$supplier_id];
-                        if($due > 0)
-                        {
-                            $totalDue += $due;
-                        }
-                    } 
-                    else
-                    {
-                        $totalDue +=  $sum;
-                    }
-                }
-                return $totalDue;
+                $transactions = Transaction::sum('total');
+
+                $payments = Payment::sum('amount');
+
+                return $transactions - $payments;
             }),
-            Stat::make('Paid in Advance', function () {
-                $transactions = Transaction::groupBy('supplier_id')
-                    ->selectRaw('sum(total) as sum, supplier_id')
-                    ->pluck('sum', 'supplier_id');
-                
-                $payments = Payment::groupBy('supplier_id')
-                    ->selectRaw('sum(amount) as sum, supplier_id')
-                    ->pluck('sum', 'supplier_id');
-                
-                $totalAdvance = 0;
-                foreach ($transactions as $supplier_id => $sum) {
-                    if(isset($payments[$supplier_id]))
-                    {
-                        $advance = $payments[$supplier_id] - $sum;
-                        if($advance > 0)
-                        {
-                            $totalAdvance += $advance;
-                        }
-                    }
-                }
-                return $totalAdvance;
-            }),
+            Stat::make('Deposited', Deposit::sum('amount')),
+            Stat::make('Expense', Expense::sum('amount')),
             Stat::make('Categories', Category::count()),
             Stat::make('Brands', Brand::count()),
             Stat::make('Unit Types', UnitType::count()),
