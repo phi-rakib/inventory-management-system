@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('account_number');
-            $table->decimal('balance', 8, 2);
+            $table->decimal('balance', 8, 2)->default(0);
             $table->text('description')->nullable();
             $table->timestamps();
         });
