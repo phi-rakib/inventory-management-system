@@ -68,7 +68,7 @@ class PaymentResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('supplier.name')
+                TextColumn::make('account.name')
                     ->sortable(),
                 TextColumn::make('amount')
                     ->numeric()
