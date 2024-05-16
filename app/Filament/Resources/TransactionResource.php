@@ -20,6 +20,8 @@ use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\ColumnGroup;
 use Filament\Tables\Columns\Summarizers\Sum;
@@ -137,8 +139,6 @@ class TransactionResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('#')
-                    ->rowIndex(),
                 TextColumn::make('supplier.name')
                     ->numeric()
                     ->sortable(),
@@ -159,12 +159,12 @@ class TransactionResource extends Resource
                 TextColumn::make('due')
                     ->numeric(),
                 TextColumn::make('total')
-                    ->label('Total Amount')
+                    ->label('Grand Total')
                     ->numeric()
                     ->summarize(Sum::make()->label('Total Purchase Amount')),
                 TextColumn::make('transact_at')
                     ->label('Purchase Date')
-                    ->dateTime()
+                    ->date()
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -202,10 +202,12 @@ class TransactionResource extends Resource
                     ->multiple(),
             ], layout: FiltersLayout::Modal)
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make(),
                 Action::make('pay')
                     ->url(fn (Transaction $record): string => route('filament.admin.resources.payments.create') . '?transaction_id=' . $record->id)
                     ->openUrlInNewTab()
+                    ->hidden(fn (Model $record) => $record->due == 0)
+                    ->icon('heroicon-m-currency-bangladeshi')
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
