@@ -144,14 +144,17 @@ class TransactionResource extends Resource
                     ->sortable(),
                 ColumnGroup::make('Product', [
                     TextColumn::make('productTransaction.product.name')
-                        ->label('name')
+                        ->label('Name')
                         ->listWithLineBreaks(),
                     TextColumn::make('productTransaction.quantity')
-                        ->label('quantity')
+                        ->label('Quantity')
                         ->numeric()
                         ->listWithLineBreaks(),
                     TextColumn::make('productTransaction.product.unitType.name')
                         ->label('Unit')
+                        ->listWithLineBreaks(),
+                    TextColumn::make('productTransaction.AttributeValueProductTransactions.attributeValue.value_name')
+                        ->label('Attribute')
                         ->listWithLineBreaks(),
                 ])->alignCenter(),
                 TextColumn::make('paid')
