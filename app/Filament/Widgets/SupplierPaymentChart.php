@@ -11,7 +11,7 @@ class SupplierPaymentChart extends ChartWidget
 {
     protected static ?string $heading = 'Supplier Payment';
 
-    protected static ?int $sort = 4;
+    protected static ?int $sort = 5;
 
     protected function getData(): array
     {
