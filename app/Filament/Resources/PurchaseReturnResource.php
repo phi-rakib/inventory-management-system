@@ -17,7 +17,7 @@ class PurchaseReturnResource extends Resource
 {
     protected static ?string $model = PurchaseReturn::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-arrow-uturn-right';
 
     protected static ?int $navigationSort = 2;
 
