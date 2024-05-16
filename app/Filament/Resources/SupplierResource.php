@@ -55,20 +55,20 @@ class SupplierResource extends Resource
                         return $record->transactions()->sum('total');
                     })
                     ->numeric(decimalPlaces: 0),
-                TextColumn::make('payments')
-                    ->state(function (Supplier $record): float {
-                        return $record->payments()->sum('amount');
-                    })
-                    ->numeric(decimalPlaces: 0)
-                    ->label('Paid'),
-                TextColumn::make('due')
-                    ->state(function (Supplier $record): float {
-                        $purchase = $record->transactions()->sum('total');
-                        $paid = $record->payments()->sum('amount');
-                        return $purchase - $paid;
-                    })
-                    ->numeric(decimalPlaces: 0)
-                    ->label('Due'),
+                // TextColumn::make('payments')
+                //     ->state(function (Supplier $record): float {
+                //         return $record->payments()->sum('amount');
+                //     })
+                //     ->numeric(decimalPlaces: 0)
+                //     ->label('Paid'),
+                // TextColumn::make('due')
+                //     ->state(function (Supplier $record): float {
+                //         $purchase = $record->transactions()->sum('total');
+                //         $paid = $record->payments()->sum('amount');
+                //         return $purchase - $paid;
+                //     })
+                //     ->numeric(decimalPlaces: 0)
+                //     ->label('Due'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
