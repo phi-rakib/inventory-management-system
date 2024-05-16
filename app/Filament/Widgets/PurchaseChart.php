@@ -12,6 +12,8 @@ class PurchaseChart extends ChartWidget
     
     protected static ?int $sort = 3;
 
+    protected static string $color = 'danger';
+
     protected function getData(): array
     {
         $purchases = DB::table('transactions')
