@@ -22,7 +22,7 @@ class TransferResource extends Resource
 {
     protected static ?string $model = Transfer::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-truck';
 
     protected static ?int $navigationSort = 1;
 
