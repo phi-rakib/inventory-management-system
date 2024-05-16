@@ -202,12 +202,13 @@ class TransactionResource extends Resource
                     ->multiple(),
             ], layout: FiltersLayout::Modal)
             ->actions([
-                EditAction::make(),
+
                 Action::make('pay')
-                    ->url(fn (Transaction $record): string => route('filament.admin.resources.payments.create') . '?transaction_id=' . $record->id)
+                    ->url(fn (Transaction $record): string => PaymentResource::getUrl('create', ['transaction_id' => $record->id]))
                     ->openUrlInNewTab()
                     ->hidden(fn (Model $record) => $record->due == 0)
-                    ->icon('heroicon-m-currency-bangladeshi')
+                    ->icon('heroicon-m-currency-bangladeshi'),
+                EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
