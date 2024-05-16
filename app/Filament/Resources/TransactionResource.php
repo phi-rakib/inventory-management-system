@@ -205,7 +205,7 @@ class TransactionResource extends Resource
                 Tables\Actions\EditAction::make(),
                 Action::make('pay')
                     ->url(fn (Transaction $record): string => route('filament.admin.resources.payments.create') . '?transaction_id=' . $record->id)
-                    ->modal()
+                    ->openUrlInNewTab()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
