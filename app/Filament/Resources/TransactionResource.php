@@ -153,8 +153,12 @@ class TransactionResource extends Resource
                         ->listWithLineBreaks(),
                 ])->alignCenter(),
                 TextColumn::make('paid')
+                    ->label('Paid')
+                    ->state(fn(Model $record) => $record->payments->sum('amount'))
                     ->numeric(),
                 TextColumn::make('due')
+                    ->label('Due')
+                    ->state(fn(Model $record) => $record->total - $record->payments->sum('amount'))
                     ->numeric(),
                 TextColumn::make('total')
                     ->label('Grand Total')
