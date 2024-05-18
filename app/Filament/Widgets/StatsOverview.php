@@ -23,13 +23,7 @@ class StatsOverview extends BaseWidget
         return [
             Stat::make('Purchased', Transaction::sum('total')),
             Stat::make('Paid', Payment::sum('amount')),
-            Stat::make('Due', function () {
-                $transactions = Transaction::sum('total');
-
-                $payments = Payment::sum('amount');
-
-                return $transactions - $payments;
-            }),
+            Stat::make('Due', fn() => Transaction::sum('total') - Payment::sum('amount')),
             Stat::make('Deposited', Deposit::sum('amount')),
         ];
     }
