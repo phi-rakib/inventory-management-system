@@ -12,4 +12,9 @@ class DepositCategory extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function deposits()
+    {
+        return $this->hasMany(Deposit::class);
+    }
 }
