@@ -32,6 +32,6 @@ class Deposit extends Model
     public function depositCategory()
     {
         return $this->belongsTo(DepositCategory::class, 'deposit_category_id', 'id')
-            ->select('id, name');
+            ->select('id', 'name');
     }
 }
