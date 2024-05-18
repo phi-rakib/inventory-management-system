@@ -23,11 +23,6 @@ class ExpenseCategoryResource extends Resource
 
     protected static ?string $navigationGroup = 'Accounts';
 
-    public static function getNavigationBadge(): ?string
-    {
-        return static::getModel()::count();
-    }
-
     public static function form(Form $form): Form
     {
         return $form
