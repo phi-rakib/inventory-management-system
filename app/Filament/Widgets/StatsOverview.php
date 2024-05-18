@@ -31,12 +31,6 @@ class StatsOverview extends BaseWidget
                 return $transactions - $payments;
             }),
             Stat::make('Deposited', Deposit::sum('amount')),
-            Stat::make('Expense', Expense::sum('amount')),
-            Stat::make('Categories', Category::count()),
-            Stat::make('Brands', Brand::count()),
-            Stat::make('Unit Types', UnitType::count()),
-            Stat::make('Product', Product::count()),
-            Stat::make('Supplier', Supplier::count()),
         ];
     }
 }
