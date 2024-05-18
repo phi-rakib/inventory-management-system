@@ -15,6 +15,8 @@ class Transaction extends Model
         'total',
     ];
 
+    protected $with = ['payments'];
+
     public function supplier()
     {
         return $this->belongsTo(Supplier::class);
@@ -28,15 +30,5 @@ class Transaction extends Model
     public function payments()
     {
         return $this->hasMany(Payment::class);
-    }
-
-    public function getPaidAttribute()
-    {
-        return $this->payments()->sum('amount');
-    }
-
-    public function getDueAttribute()
-    {
-        return $this->total - $this->paid;
     }
 }

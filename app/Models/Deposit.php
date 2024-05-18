@@ -19,16 +19,19 @@ class Deposit extends Model
 
     public function account()
     {
-        return $this->belongsTo(Account::class);
+        return $this->belongsTo(Account::class, 'account_id', 'id');
     }
+
 
     public function paymentMethod()
     {
-        return $this->belongsTo(PaymentMethod::class);
+        return $this->belongsTo(PaymentMethod::class, 'payment_method_id', 'id')
+            ->select('id', 'name');
     }
 
     public function depositCategory()
     {
-        return $this->belongsTo(DepositCategory::class);
+        return $this->belongsTo(DepositCategory::class, 'deposit_category_id', 'id')
+            ->select('id', 'name');
     }
 }

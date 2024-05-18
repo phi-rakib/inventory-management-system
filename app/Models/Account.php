@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Account extends Model
 {
@@ -15,12 +16,22 @@ class Account extends Model
         'description',
     ];
 
-    public function deposits()
+    /**
+     * Get all deposits related to this account.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function deposits(): HasMany
     {
         return $this->hasMany(Deposit::class);
     }
 
-    public function expenses()
+    /**
+     * Get all expenses related to this account.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Expense>
+     */
+    public function expenses(): HasMany
     {
         return $this->hasMany(Expense::class);
     }

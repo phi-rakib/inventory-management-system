@@ -15,6 +15,7 @@ class UnitType extends Model
 
     public function products()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Product::class)
+            ->select('id', 'name', 'unit_type_id');
     }
 }

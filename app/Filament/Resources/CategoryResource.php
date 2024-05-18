@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CategoryResource extends Resource
@@ -23,11 +24,6 @@ class CategoryResource extends Resource
     protected static ?int $navigationSort = 4;
 
     protected static ?string $navigationGroup = 'Product';
-
-    public static function getNavigationBadge(): ?string
-    {
-        return static::getModel()::count();
-    }
 
     public static function form(Form $form): Form
     {
@@ -46,9 +42,7 @@ class CategoryResource extends Resource
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('total_products')
-                    ->state(function (Category $category) {
-                        return $category->products()->count();
-                    }),
+                    ->state(fn (Model $record) => $record->products->count()),
                 TextColumn::make('products.name')
                     ->listWithLineBreaks()
                     ->bulleted(),

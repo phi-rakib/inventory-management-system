@@ -23,11 +23,6 @@ class WarehouseResource extends Resource
 
     protected static ?string $navigationGroup = 'Product Transfer';
 
-    public static function getNavigationBadge(): ?string
-    {
-        return static::getModel()::count();
-    }
-
     public static function form(Form $form): Form
     {
         return $form
