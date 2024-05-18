@@ -20,16 +20,18 @@ class Expense extends Model
 
     public function expenseCategory()
     {
-        return $this->belongsTo(ExpenseCategory::class);
+        return $this->belongsTo(ExpenseCategory::class, 'expense_category_id', 'id')
+            ->select('id', 'name');
     }
 
     public function account()
     {
-        return $this->belongsTo(Account::class);
+        return $this->belongsTo(Account::class, 'account_id', 'id');
     }
 
     public function paymentMethod()
     {
-        return $this->belongsTo(PaymentMethod::class);
+        return $this->belongsTo(PaymentMethod::class, 'payment_method_id', 'id')
+            ->select('id', 'name');
     }
 }
