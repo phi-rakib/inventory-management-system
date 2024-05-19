@@ -92,7 +92,8 @@ class ProductResource extends Resource
                     ->sortable(),
                 TextColumn::make('quantity')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->default(0),
                 TextColumn::make('unitType.name'),
                 TextColumn::make('created_at')
                     ->dateTime()
