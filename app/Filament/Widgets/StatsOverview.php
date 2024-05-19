@@ -20,11 +20,16 @@ class StatsOverview extends BaseWidget
 
     protected function getStats(): array
     {
+        $purchases = Transaction::sum('total');
+        $payments = Payment::sum('amount');
+        $dues = $purchases - $payments;
+        $deposits = Deposit::sum('amount');
+
         return [
-            Stat::make('Purchased', Transaction::sum('total')),
-            Stat::make('Paid', Payment::sum('amount')),
-            Stat::make('Due', fn() => Transaction::sum('total') - Payment::sum('amount')),
-            Stat::make('Deposited', Deposit::sum('amount')),
+            Stat::make('Purchased', $purchases),
+            Stat::make('Paid', $payments),
+            Stat::make('Due', fn () => $dues),
+            Stat::make('Deposited', $deposits),
         ];
     }
 }
