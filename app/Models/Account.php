@@ -14,6 +14,7 @@ class Account extends Model
         'name',
         'account_number',
         'description',
+        'balance',
     ];
 
     /**
