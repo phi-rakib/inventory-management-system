@@ -4,6 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Product;
+use App\Models\Warehouse;
+use Attribute;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,6 +24,14 @@ class DatabaseSeeder extends Seeder
             DepositSeeder::class,
             ExpenseCategorySeeder::class,
             ExpenseSeeder::class,
+            AttributeSeeder::class,
+            AttributeValueSeeder::class,
+            BrandSeeder::class,
+            CategorySeeder::class,
+            UnitTypeSeeder::class,
+            ProductSeeder::class,
+            WarehouseSeeder::class,
+            AdjustmentSeeder::class,
         ]);
     }
 }
