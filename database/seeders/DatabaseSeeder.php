@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             ExpenseCategorySeeder::class,
             ExpenseSeeder::class,
             AttributeSeeder::class,
+            AttributeValueSeeder::class,
         ]);
     }
 }

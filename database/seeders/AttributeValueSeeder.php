@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\AttributeValue;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +13,6 @@ class AttributeValueSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        AttributeValue::factory(10)->create();
     }
 }
