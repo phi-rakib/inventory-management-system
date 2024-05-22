@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use Attribute;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,6 +22,7 @@ class DatabaseSeeder extends Seeder
             DepositSeeder::class,
             ExpenseCategorySeeder::class,
             ExpenseSeeder::class,
+            AttributeSeeder::class,
         ]);
     }
 }
