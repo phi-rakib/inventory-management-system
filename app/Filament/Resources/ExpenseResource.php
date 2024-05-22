@@ -20,6 +20,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ExpenseResource extends Resource
@@ -34,6 +35,8 @@ class ExpenseResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $isCreate = $form->getOperation() === "create";
+
         return $form
             ->schema([
                 Section::make([
@@ -53,11 +56,17 @@ class ExpenseResource extends Resource
                         ->required(),
                     TextInput::make('amount')
                         ->rules([
-                            fn (Get $get): Closure => function (string $attribute, $value, Closure $fail) use ($get) {
+                            fn (Get $get, string $operation, Model $record): Closure => function (string $attribute, $value, Closure $fail) use ($get, $operation, $record) {
                                 $account_id = $get('account_id');
                                 if ($account_id) {
                                     $account = Account::find($account_id);
-                                    if($account->balance < $value)
+                                    $balance = 0;
+                                    if($operation == 'create')
+                                        $balance = $account->balance;
+                                    else
+                                        $balance = $account->balance + Expense::find($record->id)->value('amount') ;
+                                    
+                                    if($balance < $value)
                                     {
                                         $fail("You do not have suffcient balance in your account");
                                     }
