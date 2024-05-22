@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             PaymentMethodSeeder::class,
             DepositSeeder::class,
             ExpenseCategorySeeder::class,
+            ExpenseSeeder::class,
         ]);
     }
 }
