@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\DepositCategory;
+use App\Models\ExpenseCategory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,6 +20,7 @@ class DatabaseSeeder extends Seeder
             DepositCategorySeeder::class,
             PaymentMethodSeeder::class,
             DepositSeeder::class,
+            ExpenseCategorySeeder::class,
         ]);
     }
 }
