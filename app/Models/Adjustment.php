@@ -23,9 +23,5 @@ class Adjustment extends Model
     public function adjustmentProducts()
     {
         return $this->hasMany(AdjustmentProduct::class);
-        // ->withPivot([
-        //     'quantity',
-        //     'type',
-        // ]);
     }
 }
