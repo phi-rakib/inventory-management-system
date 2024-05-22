@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             AccountSeeder::class,
             DepositCategorySeeder::class,
             PaymentMethodSeeder::class,
+            DepositSeeder::class,
         ]);
     }
 }
