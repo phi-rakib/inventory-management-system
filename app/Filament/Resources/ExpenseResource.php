@@ -56,18 +56,16 @@ class ExpenseResource extends Resource
                         ->required(),
                     TextInput::make('amount')
                         ->rules([
-                            fn (Get $get, string $operation, Model $record): Closure => function (string $attribute, $value, Closure $fail) use ($get, $operation, $record) {
+                            fn (Get $get, string $operation, ?Model $record): Closure => function (string $attribute, $value, Closure $fail) use ($get, $operation, $record) {
                                 $account_id = $get('account_id');
                                 if ($account_id) {
                                     $account = Account::find($account_id);
                                     $balance = 0;
-                                    if($operation == 'create')
+                                    if ($operation == 'create')
                                         $balance = $account->balance;
                                     else
-                                        $balance = $account->balance + Expense::find($record->id)->value('amount') ;
-                                    
-                                    if($balance < $value)
-                                    {
+                                        $balance = $account->balance + Expense::where('id', $record->id)->value('amount');
+                                    if ($balance < $value) {
                                         $fail("You do not have suffcient balance in your account");
                                     }
                                 }
@@ -91,6 +89,7 @@ class ExpenseResource extends Resource
                 TextColumn::make('amount')
                     ->numeric()
                     ->sortable(),
+                TextColumn::make('description'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
