@@ -38,11 +38,12 @@ class CategoryResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn (Builder $query) => $query->withCount('products'))
             ->columns([
                 TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('total_products')
-                    ->state(fn (Model $record) => $record->products->count()),
+                TextColumn::make('products_count')
+                    ->label('Products'),
                 TextColumn::make('products.name')
                     ->listWithLineBreaks()
                     ->bulleted(),
