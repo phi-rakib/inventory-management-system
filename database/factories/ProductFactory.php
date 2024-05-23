@@ -21,9 +21,9 @@ class ProductFactory extends Factory
     {
         return [
             'name' => fake()->sentence(),
-            'category_id' => Category::inRandomOrder()->value('id'),
-            'brand_id' => Brand::inRandomOrder()->value('id'),
-            'unit_type_id' => UnitType::inRandomOrder()->value('id'),
+            'category_id' => Category::factory(),
+            'brand_id' => Brand::factory(),
+            'unit_type_id' => UnitType::factory(),
             'description' => fake()->sentence(),
             'quantity' => fake()->numberBetween(10, 100),
             'price' => fake()->numberBetween(100, 10000),
