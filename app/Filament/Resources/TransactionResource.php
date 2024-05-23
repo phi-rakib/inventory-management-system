@@ -61,7 +61,7 @@ class TransactionResource extends Resource
 
 
 
-                Repeater::make('productTransaction')
+                Repeater::make('productTransactions')
                     ->label('Products')
                     ->relationship()
                     ->schema([
@@ -80,7 +80,7 @@ class TransactionResource extends Resource
                                     ->prefix('$'),
                             ]),
                             Section::make([
-                                Repeater::make('AttributeValueProductTransactions')
+                                Repeater::make('attributeValueProductTransactions')
                                     ->label('')
                                     ->relationship()
                                     ->schema([
@@ -138,17 +138,17 @@ class TransactionResource extends Resource
                     ->numeric()
                     ->sortable(),
                 ColumnGroup::make('Product', [
-                    TextColumn::make('productTransaction.product.name')
+                    TextColumn::make('productTransactions.product.name')
                         ->label('Name')
                         ->listWithLineBreaks(),
-                    TextColumn::make('productTransaction.quantity')
+                    TextColumn::make('productTransactions.quantity')
                         ->label('Quantity')
                         ->numeric()
                         ->listWithLineBreaks(),
-                    TextColumn::make('productTransaction.product.unitType.name')
+                    TextColumn::make('productTransactions.product.unitType.name')
                         ->label('Unit')
                         ->listWithLineBreaks(),
-                    TextColumn::make('productTransaction.AttributeValueProductTransactions.attributeValue.value_name')
+                    TextColumn::make('productTransactions.AttributeValueProductTransactions.attributeValue.value_name')
                         ->label('Attribute')
                         ->listWithLineBreaks(),
                 ])->alignCenter(),
@@ -200,7 +200,7 @@ class TransactionResource extends Resource
                     ->multiple()
                     ->searchable(),
                 SelectFilter::make('product')
-                    ->relationship('productTransaction.product', 'name')
+                    ->relationship('productTransactions.product', 'name')
                     ->multiple(),
             ], layout: FiltersLayout::Modal)
             ->actions([
@@ -237,7 +237,7 @@ class TransactionResource extends Resource
 
     public static function updateTotals(Get $get, Set $set): void
     {
-        $selectedProducts = collect($get('productTransaction'))->filter(fn ($item) => !empty($item['product_id']) && !empty($item['quantity']));
+        $selectedProducts = collect($get('productTransactions'))->filter(fn ($item) => !empty($item['product_id']) && !empty($item['quantity']));
 
         $subtotal = $selectedProducts->reduce(function ($subtotal, $product) {
             return $subtotal + ($product['unit_price'] * $product['quantity']);
