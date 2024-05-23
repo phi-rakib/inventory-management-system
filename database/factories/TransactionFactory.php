@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Supplier;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,9 @@ class TransactionFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'supplier_id' => Supplier::factory(),
+            'transact_at' => fake()->date(),
+            'total' => fake()->numberBetween(1000, 10000),
         ];
     }
 }
