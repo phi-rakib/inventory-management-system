@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             WarehouseSeeder::class,
             AdjustmentSeeder::class,
             CustomerSeeder::class,
+            SupplierSeeder::class,
         ]);
     }
 }
