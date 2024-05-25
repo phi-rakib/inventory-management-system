@@ -55,14 +55,17 @@ class DepositResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('account.name')
-                    ->numeric()
+
+                TextColumn::make('deposit_date')
+                    ->label('Date')
+                    ->date()
                     ->sortable(),
                 TextColumn::make('depositCategory.name')
+                    ->label('Category')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('deposit_date')
-                    ->date()
+                TextColumn::make('account.name')
+                    ->numeric()
                     ->sortable(),
                 TextColumn::make('amount')
                     ->numeric()
