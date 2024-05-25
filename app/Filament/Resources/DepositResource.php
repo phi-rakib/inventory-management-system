@@ -71,7 +71,8 @@ class DepositResource extends Resource
                 TextColumn::make('amount')
                     ->numeric()
                     ->sortable()
-                    ->summarize(Sum::make()->label('Total')),
+                    ->summarize(Sum::make()->label('Total'))
+                    ->copyable(),
                 TextColumn::make('paymentMethod.name')
                     ->numeric()
                     ->sortable(),
