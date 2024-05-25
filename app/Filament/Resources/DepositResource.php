@@ -12,6 +12,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -65,7 +66,8 @@ class DepositResource extends Resource
                     ->sortable(),
                 TextColumn::make('amount')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->summarize(Sum::make()->label('Total')),
                 TextColumn::make('paymentMethod.name')
                     ->numeric()
                     ->sortable(),
