@@ -47,7 +47,8 @@ class AccountResource extends Resource
                     ->searchable(),
                 TextColumn::make('account_number')
                     ->searchable(),
-                TextColumn::make('balance'),
+                TextColumn::make('balance')
+                    ->numeric(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
