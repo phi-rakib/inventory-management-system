@@ -13,6 +13,8 @@ class Transaction extends Model
         'supplier_id',
         'transact_at',
         'total',
+        'delivery_cost',
+        'discount',
     ];
 
     protected $with = ['payments'];

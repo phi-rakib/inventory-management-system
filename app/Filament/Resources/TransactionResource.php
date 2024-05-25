@@ -122,13 +122,28 @@ class TransactionResource extends Resource
                     ->columnSpanFull()
                     ->addActionLabel('Add Product'),
 
-                TextInput::make('total')
-                    ->numeric()
-                    ->readOnly()
-                    ->prefix('$')
-                    ->afterStateHydrated(function (Get $get, Set $set) {
-                        self::updateTotals($get, $set);
-                    }),
+                Section::make([
+                    TextInput::make('delivery_cost')
+                        ->numeric()
+                        ->live(onBlur: true)
+                        ->afterStateUpdated(function (Get $get, Set $set) {
+                            self::updateTotals($get, $set);
+                        })->default(0),
+                    TextInput::make('discount')
+                        ->numeric()
+                        ->live(onBlur: true)
+                        ->afterStateUpdated(function (Get $get, Set $set) {
+                            self::updateTotals($get, $set);
+                        })->default(0),
+                    TextInput::make('total')
+                        ->numeric()
+                        ->readOnly()
+                        ->prefix('$')
+                        ->afterStateHydrated(function (Get $get, Set $set) {
+                            self::updateTotals($get, $set);
+                        }),
+                ])->columns(3),
+
             ]);
     }
 
@@ -156,11 +171,11 @@ class TransactionResource extends Resource
                 ])->alignCenter(),
                 TextColumn::make('paid')
                     ->label('Paid')
-                    ->state(fn(Model $record) => $record->payments->sum('amount'))
+                    ->state(fn (Model $record) => $record->payments->sum('amount'))
                     ->numeric(),
                 TextColumn::make('due')
                     ->label('Due')
-                    ->state(fn(Model $record) => $record->total - $record->payments->sum('amount'))
+                    ->state(fn (Model $record) => $record->total - $record->payments->sum('amount'))
                     ->numeric(),
                 TextColumn::make('total')
                     ->label('Grand Total')
@@ -210,7 +225,7 @@ class TransactionResource extends Resource
                 Action::make('pay')
                     ->url(fn (Transaction $record): string => PaymentResource::getUrl('create', ['transaction_id' => $record->id]))
                     ->openUrlInNewTab()
-                    ->hidden(fn(Model $record) => $record->total - $record->payments->sum('amount') == 0)
+                    ->hidden(fn (Model $record) => $record->total - $record->payments->sum('amount') == 0)
                     ->icon('heroicon-m-currency-bangladeshi'),
                 EditAction::make(),
             ])
@@ -245,6 +260,6 @@ class TransactionResource extends Resource
             return $subtotal + ($product['unit_price'] * $product['quantity']);
         }, 0);
 
-        $set('total', number_format($subtotal, 2, '.', ''));
+        $set('total', number_format($subtotal + $get('delivery_cost') - $get('discount'), 2, '.', ''));
     }
 }

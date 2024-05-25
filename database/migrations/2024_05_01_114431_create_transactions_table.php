@@ -16,6 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('supplier_id');
             $table->dateTime('transact_at');
             $table->decimal('total', 8, 2);
+            $table->decimal('delivery_cost', 8, 2)->default(0);
+            $table->decimal('discount', 8, 2)->default(0);
             $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
             $table->timestamps();
         });
