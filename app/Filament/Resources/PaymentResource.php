@@ -63,6 +63,7 @@ class PaymentResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn (Builder $query) => $query->orderBy('payment_date', 'desc'))
             ->columns([
                 TextColumn::make('account.name')
                     ->sortable(),
