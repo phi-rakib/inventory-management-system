@@ -23,6 +23,7 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\ColumnGroup;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
@@ -33,6 +34,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Log;
 use stdClass;
 
 class TransactionResource extends Resource
@@ -208,7 +210,7 @@ class TransactionResource extends Resource
                 Action::make('pay')
                     ->url(fn (Transaction $record): string => PaymentResource::getUrl('create', ['transaction_id' => $record->id]))
                     ->openUrlInNewTab()
-                    ->hidden(fn (Model $record) => $record->due == 0)
+                    ->hidden(fn(Model $record) => $record->total - $record->payments->sum('amount') == 0)
                     ->icon('heroicon-m-currency-bangladeshi'),
                 EditAction::make(),
             ])
