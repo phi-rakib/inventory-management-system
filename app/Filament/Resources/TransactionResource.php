@@ -180,6 +180,7 @@ class TransactionResource extends Resource
                 TextColumn::make('total')
                     ->label('Grand Total')
                     ->numeric()
+                    ->copyable()
                     ->summarize(Sum::make()->label('Total Purchase Amount')),
                 TextColumn::make('transact_at')
                     ->label('Purchase Date')
