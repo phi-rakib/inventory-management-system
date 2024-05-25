@@ -84,6 +84,10 @@ class ExpenseResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('created_at')
+                    ->label('Date')
+                    ->dateTime()
+                    ->sortable(),
                 TextColumn::make('expenseCategory.name')
                     ->label('Category')
                     ->sortable(),
@@ -91,11 +95,9 @@ class ExpenseResource extends Resource
                     ->numeric()
                     ->sortable()
                     ->summarize(Sum::make()->label('Total')),
+                TextColumn::make('paymentMethod.name'),
                 TextColumn::make('description'),
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: false),
+
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
