@@ -46,15 +46,14 @@ class AttributeValueResource extends Resource
                 TextColumn::make('attribute.name')
                     ->searchable(),
                 TextColumn::make('value_name')
+                ->label('Value')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
                 TextColumn::make('updated_at')
                     ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
             ])
             ->filters([
                 //
