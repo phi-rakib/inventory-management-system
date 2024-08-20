@@ -83,8 +83,6 @@ class AdjustmentResource extends Resource
                 TextColumn::make('adjustmentProducts.type')
                     ->label('Type')
                     ->sortable(),
-                TextColumn::make('reason')
-                    ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
