@@ -3,9 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\AdjustmentResource\Pages;
-use App\Filament\Resources\AdjustmentResource\RelationManagers;
 use App\Models\Adjustment;
-use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
@@ -16,8 +14,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AdjustmentResource extends Resource
 {
@@ -74,16 +70,19 @@ class AdjustmentResource extends Resource
                 TextColumn::make('adjustment_date')
                     ->date()
                     ->sortable(),
-                TextColumn::make('product.name')
+                TextColumn::make('adjustmentProducts.product.name')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('warehouse.name')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('quantity')
+                TextColumn::make('adjustmentProducts.quantity')
+                    ->label('Quantity')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('type'),
+                TextColumn::make('adjustmentProducts.type')
+                    ->label('Type')
+                    ->sortable(),
                 TextColumn::make('reason')
                     ->searchable(),
                 TextColumn::make('created_at')
